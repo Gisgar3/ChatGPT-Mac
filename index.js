@@ -8,10 +8,16 @@ const {
   app,
   nativeImage,
   Tray,
+  TouchBar,
   Menu,
   globalShortcut,
-  shell,
+  shell
 } = require("electron");
+const {
+  TouchBarLabel,
+  TouchBarButton,
+  TouchBarSpacer
+} = TouchBar;
 const contextMenu = require("electron-context-menu");
 
 const image = nativeImage.createFromPath(
@@ -108,8 +114,22 @@ app.on("ready", () => {
       }
     });
 
-    Menu.setApplicationMenu(menu);
+    // Touch Bar Interactions
+    const chatButton = new TouchBarButton({
+      label: 'Chat',
+      icon: 'images/icon.png',
+      backgroundColor: '#10a37f',
+      iconPosition: 'left',
+      click: () => console.log('CLICKED')
+    });
+    const touchbar = new TouchBar({
+      items: [
+        chatButton
+      ]
+    });
 
+    window.setTouchBar(touchbar);
+    Menu.setApplicationMenu(menu);
     // open devtools
     // window.webContents.openDevTools();
 
